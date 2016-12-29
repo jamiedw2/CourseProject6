@@ -5,9 +5,39 @@ date: "29 December 2016"
 output: pdf_document
 ---
 
+##Synopsis
+
+In this report, the exponential distribution is investigated and compared to the Central Limit Theorem (CLT). A large number of exponential distributions are simulated, and the means are shown to follow an approximate normal distribution.
+
+##Simulations
+
+Sets of 40 exponential distributions with lambda = 0.2 as the rate constant are simulated 1000 times and stored as a matrix.
+
 ```{r}
-hist(rexp(1000,0.2))
-mns = NULL
-for (i in 1 : 1000) mns = c(mns, mean(rexp(40,0.2)))
-hist(mns)
+set.seed(1)
+expDist <- matrix(rexp(40*1000,0.2), 1000, 40)
+expDistMeans = apply(expDist, 1, mean)
+mean(expDistMeans)
+hist(expDistMeans, main="Means of exponential distributions", xlab="Mean")
+abline(v=5, lwd=5)
 ```
+
+The figure above shows the distribution of means of the exponential distributions. The thick vertical line shows the theoretical mean of 5 (1/lambda), which is close to the sample mean calculated above of 4.99. The theoretical variance of the distribution is (1/lambda)^2/n = 0.025. For the simulations:
+
+```{r}
+expDistVar = apply(expDist, 1, var)
+sum(expDistVar)/1000^2
+```
+
+
+Finally, to show that the distribution of means is approximately normal, the distribution generated above is compared with an exponential distribution of 1000 simulated variables:
+
+```{r}
+par(mfcol=c(1,2), mar=c(5,4,4,4))
+hist(expDistMeans, main="Means of exponential distributions", xlab="Mean", prob=TRUE, 
+     ylim=0:1)
+curve(dnorm(x, 5, 0.62), add=TRUE, col="red", lwd=2)
+hist(rexp(1000,0.2), main="Exponential distribution", xlab="exp")
+```
+
+This shows that the distribution of means is much closer to Gaussian than the exponential distribution, as illustrated by the overlaid red curve.
