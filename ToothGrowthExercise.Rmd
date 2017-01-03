@@ -1,0 +1,31 @@
+---
+title: "Tooth Growth Study"
+author: "James Whitehead"
+date: "3 January 2017"
+output: pdf_document
+---
+
+#Synopsis
+
+This exercise is to perform some basic inferential data analysis on the ToothGrowth data in the R datasets package. This dataset provides the tooth length in 60 guinea pigs, who recieved supplements of orange juice (OJ) or vitamin C (VC) in doses on 0.5, 1.0, or 2.0 mg/day.
+
+#Exploratory data analysis
+
+Here, the data is loaded, and a boxplot generated showing the tooth growth for each supplement type and dosage.
+
+```{r}
+library(datasets)
+boxplot(len~supp*dose, data=ToothGrowth,
+        col=c("yellow", "red"),
+        main="Tooth Growth",
+        ylab="Tooth length",
+        xlab="Supplement type and dose (mg/day)")
+```
+
+From a look at the plot, it appears that tooth growth increases with dosage for both supplement types, and that the orange juice supplement may be more effective at the lower doses than the vitamin C. These are the hypotheses that will be tested.
+
+#Hypothesis testing
+
+##1. Orange juice supplement leads to more tooth growth than vitamin C
+
+Here, the null hypothesis, $H_0$, is that there is no difference in tooth growth between the two supplement types.
